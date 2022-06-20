@@ -1,4 +1,4 @@
-* run `yarn ts-node src/index.ts`
+* run `yarn start`
   * prints existing events
   * listens to new events
 * deploy the contracts locally from `OpenQ-Contracts repo`
