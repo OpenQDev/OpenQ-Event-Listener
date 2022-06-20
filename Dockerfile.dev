@@ -5,4 +5,4 @@ RUN apk update && apk upgrade && \
 COPY package.json .
 RUN yarn
 COPY . .
-ENTRYPOINT yarn start
+ENTRYPOINT yarn start:dev

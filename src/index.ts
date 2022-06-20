@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import axios, { AxiosRequestHeaders } from 'axios'
 
 import { OpenQV0 } from '../typechain'
 import { abi as OpenQABI } from '../OpenQV0.json'
@@ -18,11 +19,10 @@ const BountyCreatedFilter = openQ.filters.BountyCreated()
 
 async function main() {
 	const events = await openQ.queryFilter(BountyCreatedFilter)
-	console.log(events)
 
 	console.log('---------------------------------')
 
-	openQ.on(BountyCreatedFilter, (bountyId, organization, issuerAddress, bountyAddress, bountyMintTime) => {
+	openQ.on(BountyCreatedFilter, async (bountyId, organization, issuerAddress, bountyAddress, bountyMintTime) => {
 		console.log({
 			bountyId,
 			organization,
@@ -30,6 +30,16 @@ async function main() {
 			bountyAddress,
 			bountyMintTime
 		})
+
+		const headers = {
+			'Authorization': process.env.OPENQ_API_SECRET
+		};
+
+		try {
+			const result = await axios.post(`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`, eventGenerator('BountyCreated', { bountyAddress, bountyId, organization }), { headers: headers as AxiosRequestHeaders });
+		} catch (error) {
+			console.error(error)
+		}
 	})
 }
 

@@ -27,7 +27,5 @@ npx hardhat console --network localhost
 ```
 
 ```
-const OpenQV0 = await ethers.getContractFactory("OpenQV0")
-const openq = await OpenQV0.attach('0x5FC8d32690cc91D4c39d9d3abcBD16989F875707')
-const txn = await openq.mintBounty('sdf','sdf')
+let OpenQV0 = await ethers.getContractFactory("OpenQV0");let openq = await OpenQV0.attach('0x5FC8d32690cc91D4c39d9d3abcBD16989F875707');let txn = await openq.mintBounty('sdf','sdf')
 ```
