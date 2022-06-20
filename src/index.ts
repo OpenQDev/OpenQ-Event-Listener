@@ -42,15 +42,18 @@ async function main() {
 		} catch (error) {
 			console.error(error)
 		}
-	})
+	});
 
-	openQ.on(TokenDepositReceivedFilter, async (bountyId, organization, issuerAddress, bountyAddress, bountyMintTime) => {
+	openQ.on(TokenDepositReceivedFilter, async (
+      bountyAddress,
+      bountyId,
+      organization,
+      tokenAddress,
+      volume) => {
 		console.log({
 			bountyId,
 			organization,
-			issuerAddress,
 			bountyAddress,
-			bountyMintTime
 		})
 
 		const headers = {
@@ -58,7 +61,7 @@ async function main() {
 		};
 
 		try {
-			const result = await axios.post(`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`, eventGenerator('TokenDepositReceived', { bountyAddress, bountyId, organization }), { headers: headers as AxiosRequestHeaders });
+			const result = await axios.post(`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`, eventGenerator('TokenDepositReceived', { tokenAddress, volume, bountyAddress, }), { headers: headers as AxiosRequestHeaders });
 			console.log(result)
 		} catch (error) {
 			console.error(error)
