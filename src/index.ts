@@ -6,9 +6,8 @@ import { abi as OpenQABI } from '../OpenQV0.json'
 import eventGenerator from './eventGenerator'
 
 require('dotenv').config()
-console.log(process.env.OPENQ_ADDRESS)
 
-// const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545')
+// const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER_URL as string)
 const provider = new ethers.providers.WebSocketProvider(process.env.PROVIDER_URL as string)
 
 const OPENQ_ADDRESS = process.env.OPENQ_ADDRESS as string
