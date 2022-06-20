@@ -22,9 +22,14 @@
 
 ## Hardhat Console
 
+You can directly mint a bounty through the hardhat console like this:
+
 ```bash
+cd OpenQ-Contracts
 npx hardhat console --network localhost
 ```
+
+Paste in as one-liner
 
 ```
 let OpenQV0 = await ethers.getContractFactory("OpenQV0");let openq = await OpenQV0.attach('0x5FC8d32690cc91D4c39d9d3abcBD16989F875707');let txn = await openq.mintBounty('sdf','sdf')
