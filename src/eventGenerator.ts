@@ -1,5 +1,6 @@
 const BOUTNY_CREATED_SIGNATURE = "BountyCreated(string,string,address,indexed address,uint256)"
-const STAGING_SENTINEL_ID = "9b6f157e-d6b8-486b-97b8-ba6a0282b235"
+
+require('dotenv').config()
 
 const eventGenerator = (eventType: string, params: any) => {
 	let signature;
@@ -14,7 +15,7 @@ const eventGenerator = (eventType: string, params: any) => {
 		request: {
 			body: {
 				sentinel: {
-					id: STAGING_SENTINEL_ID
+					id: process.env.LOCAL_EVENT_LISTENER_ID
 				},
 				matchReasons: [
 					{
