@@ -17,6 +17,8 @@ const openQ = new ethers.Contract(OPENQ_ADDRESS, OpenQABI, provider) as OpenQV0
 
 const BountyCreatedFilter = openQ.filters.BountyCreated()
 
+const TokenDepositReceivedFilter = openQ.filters.TokenDepositReceived()
+
 async function main() {
 	const events = await openQ.queryFilter(BountyCreatedFilter)
 
@@ -37,6 +39,27 @@ async function main() {
 
 		try {
 			const result = await axios.post(`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`, eventGenerator('BountyCreated', { bountyAddress, bountyId, organization }), { headers: headers as AxiosRequestHeaders });
+		} catch (error) {
+			console.error(error)
+		}
+	})
+
+	openQ.on(TokenDepositReceivedFilter, async (bountyId, organization, issuerAddress, bountyAddress, bountyMintTime) => {
+		console.log({
+			bountyId,
+			organization,
+			issuerAddress,
+			bountyAddress,
+			bountyMintTime
+		})
+
+		const headers = {
+			'Authorization': process.env.OPENQ_API_SECRET
+		};
+
+		try {
+			const result = await axios.post(`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`, eventGenerator('TokenDepositReceived', { bountyAddress, bountyId, organization }), { headers: headers as AxiosRequestHeaders });
+			console.log(result)
 		} catch (error) {
 			console.error(error)
 		}
