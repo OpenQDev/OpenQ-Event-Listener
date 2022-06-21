@@ -45,15 +45,24 @@ async function main() {
 	});
 
 	openQ.on(TokenDepositReceivedFilter, async (
+       depositId,
       bountyAddress,
       bountyId,
       organization,
       tokenAddress,
+      receiveTime,
+      sender,
+      expiration,
       volume) => {
-		console.log({
-			bountyId,
-			organization,
-			bountyAddress,
+		console.log({depositId,
+      bountyAddress,
+      bountyId,
+      organization,
+      tokenAddress,
+      receiveTime,
+      sender,
+      expiration,
+      volume
 		})
 
 		const headers = {
