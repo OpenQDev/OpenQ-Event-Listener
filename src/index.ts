@@ -19,6 +19,8 @@ const BountyCreatedFilter = openQ.filters.BountyCreated()
 
 const TokenDepositReceivedFilter = openQ.filters.TokenDepositReceived()
 
+const DepositRefundedFilter = openQ.filters.DepositRefunded()
+
 async function main() {
 	const events = await openQ.queryFilter(BountyCreatedFilter)
 
@@ -53,7 +55,8 @@ async function main() {
       receiveTime,
       sender,
       expiration,
-      volume) => {
+      volume
+			) => {
 		console.log({depositId,
       bountyAddress,
       bountyId,
@@ -71,6 +74,43 @@ async function main() {
 
 		try {
 			const result = await axios.post(`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`, eventGenerator('TokenDepositReceived', { tokenAddress, volume, bountyAddress, }), { headers: headers as AxiosRequestHeaders });
+			console.log(result)
+		} catch (error) {
+			console.error(error)
+		}
+	})
+
+	openQ.on(DepositRefundedFilter, async (
+      depositId,
+      bountyId,
+      bountyAddress,
+      organization,
+      refundTime, 
+			tokenAddress,
+			volume
+			) => {
+		console.log({
+      depositId,
+      bountyId,
+      bountyAddress,
+      organization,
+      refundTime, 
+			tokenAddress,
+			volume,
+		})
+
+		const headers = {
+			'Authorization': process.env.OPENQ_API_SECRET
+		};
+
+		try {
+			const result = await axios.post(`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`, eventGenerator('DepositRefunded', {
+			depositId,
+      bountyId,
+      bountyAddress,
+      organization,
+      refundTime 
+			}), { headers: headers as AxiosRequestHeaders });
 			console.log(result)
 		} catch (error) {
 			console.error(error)
