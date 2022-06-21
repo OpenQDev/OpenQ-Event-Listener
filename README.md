@@ -22,15 +22,36 @@
 
 ## Hardhat Console
 
-You can directly mint a bounty through the hardhat console like this:
+You can interact directly with the contracts without going through the frontend with the Hardhat Console.
+
+### Connect Hardhat Console to localhost
+
+From the `OpenQ-Contracts` root directory run:
 
 ```bash
-cd OpenQ-Contracts
 npx hardhat console --network localhost
 ```
 
-Paste in as one-liner
+### Connect to Contracts
 
 ```
-let OpenQV0 = await ethers.getContractFactory("OpenQV0");let openq = await OpenQV0.attach('0x5FC8d32690cc91D4c39d9d3abcBD16989F875707');let txn = await openq.mintBounty('sdf','sdf')
+let OpenQV0 = await ethers.getContractFactory("OpenQV0");let openq = await OpenQV0.attach('0x5FC8d32690cc91D4c39d9d3abcBD16989F875707');
+```
+
+### Mint Bounty
+
+```
+let txn = await openq.mintBounty('sdf','sdf');const { bountyAddress, bountyId } = (await txn.wait()).events[1].args
+```
+
+### Fund Bounty
+
+```
+txn = await openq.fundBountyToken(bountyId, ethers.constants.AddressZero, 100, 1);const { depositId } = (await txn.wait()).events[0].args
+```
+
+### Refund Bounty
+
+```
+txn = await openq.refundDeposit(bountyId, depositId)
 ```
