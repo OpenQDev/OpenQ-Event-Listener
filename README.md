@@ -47,7 +47,7 @@ let txn = await openq.mintBounty('sdf','sdf');const { bountyAddress, bountyId } 
 ### Fund Bounty
 
 ```
-txn = await openq.fundBountyToken(bountyId, ethers.constants.AddressZero, 100, 1);const { depositId } = (await txn.wait()).events[0].args;
+txn = await openq.fundBountyToken(bountyId, ethers.constants.AddressZero, 1000000, 1, { value: ethers.BigNumber.from('1000000000000000000') });const { depositId } = (await txn.wait()).events[0].args;
 ```
 
 ### Refund Bounty
@@ -59,5 +59,5 @@ txn = await openq.refundDeposit(bountyId, depositId);
 ### One Liner Refund
 
 ```
-let OpenQV0 = await ethers.getContractFactory("OpenQV0");let openq = await OpenQV0.attach('0x5FC8d32690cc91D4c39d9d3abcBD16989F875707');let txn = await openq.mintBounty('sdf','sdf');const { bountyAddress, bountyId } = (await txn.wait()).events[1].args;txn = await openq.fundBountyToken(bountyId, ethers.constants.AddressZero, 100, 1);const { depositId } = (await txn.wait()).events[0].args;txn = await openq.refundDeposit(bountyId, depositId);
+let OpenQV0 = await ethers.getContractFactory("OpenQV0");let openq = await OpenQV0.attach('0x5FC8d32690cc91D4c39d9d3abcBD16989F875707');let txn = await openq.mintBounty('sdf','sdf');const { bountyAddress, bountyId } = (await txn.wait()).events[1].args;console.log(bountyAddress);txn = await openq.fundBountyToken(bountyId, ethers.constants.AddressZero, 100, 1);const { depositId } = (await txn.wait()).events[0].args;txn = await openq.refundDeposit(bountyId, depositId);
 ```
