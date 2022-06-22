@@ -110,7 +110,9 @@ async function main() {
 				bountyId,
 				bountyAddress,
 				organization,
-				refundTime
+				refundTime,
+				tokenAddress,
+				volume
 			}), { headers: headers as AxiosRequestHeaders });
 			console.log(result)
 		} catch (error) {
