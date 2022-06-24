@@ -940,7 +940,7 @@ export interface OpenQV0 extends BaseContract {
       newExpiration?: null
     ): DepositExtendedEventFilter;
 
-    "DepositRefunded(bytes32,string,address,string,uint256,address,uint256)"(
+    "DepositRefunded(bytes32,string,indexed address,string,uint256,address,uint256)"(
       depositId?: null,
       bountyId?: null,
       bountyAddress?: PromiseOrValue<string> | null,

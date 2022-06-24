@@ -1,6 +1,6 @@
 const BOUTNY_CREATED_SIGNATURE = "BountyCreated(string,string,address,indexed address,uint256)"
 const TOKEN_DEPOSIT_RECEIVED = "TokenDepositReceived(bytes32,address,string,string,address,uint256,address,uint256,uint256)"
-const DEPOSIT_REFUNDED = "DepositRefunded(bytes32,string,address,string,uint256,address,uint256)"
+const DEPOSIT_REFUNDED ="DepositRefunded(bytes32,string,indexed address,string,uint256,address,uint256)"
 
 require('dotenv').config()
 
