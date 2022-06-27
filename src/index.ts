@@ -101,6 +101,7 @@ async function main() {
 						tokenAddress,
 						volume,
 						bountyAddress,
+						bountyId
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
