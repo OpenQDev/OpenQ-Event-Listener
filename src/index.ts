@@ -105,7 +105,6 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
-				console.log(result);
 			} catch (error) {
 				console.error(error);
 			}
@@ -151,7 +150,6 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
-				console.log(result);
 			} catch (error) {
 				console.error(error);
 			}
