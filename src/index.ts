@@ -13,9 +13,9 @@ const provider = new ethers.providers.WebSocketProvider(
 	process.env.PROVIDER_URL as string
 );
 
-const OPENQ_ADDRESS = process.env.OPENQ_ADDRESS as string;
+const OPENQ_PROXY_ADDRESS = process.env.OPENQ_PROXY_ADDRESS as string;
 
-const openQ = new ethers.Contract(OPENQ_ADDRESS, OpenQABI, provider) as OpenQV0;
+const openQ = new ethers.Contract(OPENQ_PROXY_ADDRESS, OpenQABI, provider) as OpenQV0;
 
 const BountyCreatedFilter = openQ.filters.BountyCreated();
 
@@ -107,7 +107,6 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
-				console.log(result);
 			} catch (error) {
 				console.error(error);
 			}
@@ -153,7 +152,6 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
-				console.log(result);
 			} catch (error) {
 				console.error(error);
 			}
