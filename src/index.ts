@@ -23,6 +23,8 @@ const TokenDepositReceivedFilter = openQ.filters.TokenDepositReceived();
 
 const DepositRefundedFilter = openQ.filters.DepositRefunded();
 
+const BountyClosedFilter = openQ.filters.BountyClosed();
+
 async function main() {
 	const events = await openQ.queryFilter(BountyCreatedFilter);
 
@@ -101,7 +103,7 @@ async function main() {
 						tokenAddress,
 						volume,
 						bountyAddress,
-						bountyId
+						bountyId,
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
@@ -157,6 +159,50 @@ async function main() {
 			}
 		}
 	);
+
+	openQ.on(
+		BountyClosedFilter,
+		async (				
+			bountyId,
+			bountyAddress,
+			organization,
+			closer,
+			bountyClosedTime,
+			closerData
+		) => {
+			console.log({				
+			bountyId,
+			bountyAddress,
+			organization,
+			closer,
+			bountyClosedTime,
+			closerData
+			});
+
+			const headers = {
+				Authorization: process.env.OPENQ_API_SECRET,
+			};
+
+			try {
+				const result = await axios.post(
+					`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`,
+					eventGenerator("BountyClosed", {				
+			bountyId,
+			bountyAddress,
+			organization,
+			closer,
+			bountyClosedTime,
+			closerData
+					}),
+					{ headers: headers as AxiosRequestHeaders }
+				);
+				console.log(result);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	);
 }
 
 main();
+
