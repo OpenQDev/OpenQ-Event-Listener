@@ -52,6 +52,7 @@ async function main() {
 			};
 
 			try {
+				console.log('calling')
 				const result = await axios.post(
 					`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`,
 					eventGenerator("BountyCreated", {
@@ -61,6 +62,7 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
+				console.log(result)
 			} catch (error) {
 				console.error(error);
 			}
@@ -160,7 +162,7 @@ async function main() {
 
 	openQ.on(
 		BountyClosedFilter,
-		async (				
+		async (
 			bountyId,
 			bountyAddress,
 			organization,
@@ -168,13 +170,13 @@ async function main() {
 			bountyClosedTime,
 			closerData
 		) => {
-			console.log({				
-			bountyId,
-			bountyAddress,
-			organization,
-			closer,
-			bountyClosedTime,
-			closerData
+			console.log({
+				bountyId,
+				bountyAddress,
+				organization,
+				closer,
+				bountyClosedTime,
+				closerData
 			});
 
 			const headers = {
@@ -184,13 +186,13 @@ async function main() {
 			try {
 				const result = await axios.post(
 					`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`,
-					eventGenerator("BountyClosed", {				
-			bountyId,
-			bountyAddress,
-			organization,
-			closer,
-			bountyClosedTime,
-			closerData
+					eventGenerator("BountyClosed", {
+						bountyId,
+						bountyAddress,
+						organization,
+						closer,
+						bountyClosedTime,
+						closerData
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
