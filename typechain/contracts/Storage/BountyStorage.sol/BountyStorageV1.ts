@@ -13,7 +13,11 @@ import type {
   Signer,
   utils,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+import type {
+  FunctionFragment,
+  Result,
+  EventFragment,
+} from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
@@ -28,23 +32,33 @@ export interface BountyStorageV1Interface extends utils.Interface {
     "bountyClosedTime()": FunctionFragment;
     "bountyCreatedTime()": FunctionFragment;
     "bountyId()": FunctionFragment;
+    "bountyType()": FunctionFragment;
+    "claimantId(bytes32)": FunctionFragment;
     "closer()": FunctionFragment;
     "closerData()": FunctionFragment;
     "depositTime(bytes32)": FunctionFragment;
     "deposits(uint256)": FunctionFragment;
     "expiration(bytes32)": FunctionFragment;
     "funder(bytes32)": FunctionFragment;
+    "fundingGoal()": FunctionFragment;
+    "fundingToken()": FunctionFragment;
+    "fundingTotals(address)": FunctionFragment;
+    "getPayoutSchedule()": FunctionFragment;
     "isNFT(bytes32)": FunctionFragment;
     "issuer()": FunctionFragment;
-    "newFoo()": FunctionFragment;
     "nftDepositLimit()": FunctionFragment;
     "nftDeposits(uint256)": FunctionFragment;
     "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
     "openQ()": FunctionFragment;
     "organization()": FunctionFragment;
     "payoutAddress(bytes32)": FunctionFragment;
+    "payoutSchedule(uint256)": FunctionFragment;
+    "payoutTokenAddress()": FunctionFragment;
+    "payoutVolume()": FunctionFragment;
     "refunded(bytes32)": FunctionFragment;
+    "setFundingGoal(address,uint256)": FunctionFragment;
     "status()": FunctionFragment;
+    "tierClaimed(uint256)": FunctionFragment;
     "tokenAddress(bytes32)": FunctionFragment;
     "tokenId(bytes32)": FunctionFragment;
     "volume(bytes32)": FunctionFragment;
@@ -55,23 +69,33 @@ export interface BountyStorageV1Interface extends utils.Interface {
       | "bountyClosedTime"
       | "bountyCreatedTime"
       | "bountyId"
+      | "bountyType"
+      | "claimantId"
       | "closer"
       | "closerData"
       | "depositTime"
       | "deposits"
       | "expiration"
       | "funder"
+      | "fundingGoal"
+      | "fundingToken"
+      | "fundingTotals"
+      | "getPayoutSchedule"
       | "isNFT"
       | "issuer"
-      | "newFoo"
       | "nftDepositLimit"
       | "nftDeposits"
       | "onERC721Received"
       | "openQ"
       | "organization"
       | "payoutAddress"
+      | "payoutSchedule"
+      | "payoutTokenAddress"
+      | "payoutVolume"
       | "refunded"
+      | "setFundingGoal"
       | "status"
+      | "tierClaimed"
       | "tokenAddress"
       | "tokenId"
       | "volume"
@@ -86,6 +110,14 @@ export interface BountyStorageV1Interface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "bountyId", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "bountyType",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claimantId",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
   encodeFunctionData(functionFragment: "closer", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "closerData",
@@ -108,11 +140,26 @@ export interface BountyStorageV1Interface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
+    functionFragment: "fundingGoal",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "fundingToken",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "fundingTotals",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getPayoutSchedule",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "isNFT",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "issuer", values?: undefined): string;
-  encodeFunctionData(functionFragment: "newFoo", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "nftDepositLimit",
     values?: undefined
@@ -140,10 +187,30 @@ export interface BountyStorageV1Interface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
+    functionFragment: "payoutSchedule",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "payoutTokenAddress",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "payoutVolume",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "refunded",
     values: [PromiseOrValue<BytesLike>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "setFundingGoal",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(functionFragment: "status", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "tierClaimed",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "tokenAddress",
     values: [PromiseOrValue<BytesLike>]
@@ -166,6 +233,8 @@ export interface BountyStorageV1Interface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "bountyId", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "bountyType", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "claimantId", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "closer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "closerData", data: BytesLike): Result;
   decodeFunctionResult(
@@ -175,9 +244,24 @@ export interface BountyStorageV1Interface extends utils.Interface {
   decodeFunctionResult(functionFragment: "deposits", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "expiration", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "funder", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "fundingGoal",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "fundingToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "fundingTotals",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getPayoutSchedule",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "isNFT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "issuer", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "newFoo", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "nftDepositLimit",
     data: BytesLike
@@ -199,8 +283,28 @@ export interface BountyStorageV1Interface extends utils.Interface {
     functionFragment: "payoutAddress",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "payoutSchedule",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "payoutTokenAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "payoutVolume",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "refunded", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setFundingGoal",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "status", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "tierClaimed",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "tokenAddress",
     data: BytesLike
@@ -208,8 +312,19 @@ export interface BountyStorageV1Interface extends utils.Interface {
   decodeFunctionResult(functionFragment: "tokenId", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "volume", data: BytesLike): Result;
 
-  events: {};
+  events: {
+    "Initialized(uint8)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
 }
+
+export interface InitializedEventObject {
+  version: number;
+}
+export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
+
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
 export interface BountyStorageV1 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -244,6 +359,13 @@ export interface BountyStorageV1 extends BaseContract {
 
     bountyId(overrides?: CallOverrides): Promise<[string]>;
 
+    bountyType(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    claimantId(
+      arg0: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     closer(overrides?: CallOverrides): Promise<[string]>;
 
     closerData(overrides?: CallOverrides): Promise<[string]>;
@@ -268,14 +390,23 @@ export interface BountyStorageV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    fundingGoal(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    fundingToken(overrides?: CallOverrides): Promise<[string]>;
+
+    fundingTotals(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    getPayoutSchedule(overrides?: CallOverrides): Promise<[BigNumber[]]>;
+
     isNFT(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
     issuer(overrides?: CallOverrides): Promise<[string]>;
-
-    newFoo(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     nftDepositLimit(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -301,12 +432,32 @@ export interface BountyStorageV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    payoutSchedule(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    payoutTokenAddress(overrides?: CallOverrides): Promise<[string]>;
+
+    payoutVolume(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     refunded(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    setFundingGoal(
+      _fundingToken: PromiseOrValue<string>,
+      _fundingGoal: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     status(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    tierClaimed(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     tokenAddress(
       arg0: PromiseOrValue<BytesLike>,
@@ -329,6 +480,13 @@ export interface BountyStorageV1 extends BaseContract {
   bountyCreatedTime(overrides?: CallOverrides): Promise<BigNumber>;
 
   bountyId(overrides?: CallOverrides): Promise<string>;
+
+  bountyType(overrides?: CallOverrides): Promise<BigNumber>;
+
+  claimantId(
+    arg0: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   closer(overrides?: CallOverrides): Promise<string>;
 
@@ -354,14 +512,23 @@ export interface BountyStorageV1 extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  fundingGoal(overrides?: CallOverrides): Promise<BigNumber>;
+
+  fundingToken(overrides?: CallOverrides): Promise<string>;
+
+  fundingTotals(
+    arg0: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getPayoutSchedule(overrides?: CallOverrides): Promise<BigNumber[]>;
+
   isNFT(
     arg0: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
   issuer(overrides?: CallOverrides): Promise<string>;
-
-  newFoo(overrides?: CallOverrides): Promise<BigNumber>;
 
   nftDepositLimit(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -387,12 +554,32 @@ export interface BountyStorageV1 extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  payoutSchedule(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  payoutTokenAddress(overrides?: CallOverrides): Promise<string>;
+
+  payoutVolume(overrides?: CallOverrides): Promise<BigNumber>;
+
   refunded(
     arg0: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  setFundingGoal(
+    _fundingToken: PromiseOrValue<string>,
+    _fundingGoal: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   status(overrides?: CallOverrides): Promise<BigNumber>;
+
+  tierClaimed(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   tokenAddress(
     arg0: PromiseOrValue<BytesLike>,
@@ -415,6 +602,13 @@ export interface BountyStorageV1 extends BaseContract {
     bountyCreatedTime(overrides?: CallOverrides): Promise<BigNumber>;
 
     bountyId(overrides?: CallOverrides): Promise<string>;
+
+    bountyType(overrides?: CallOverrides): Promise<BigNumber>;
+
+    claimantId(
+      arg0: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     closer(overrides?: CallOverrides): Promise<string>;
 
@@ -440,14 +634,23 @@ export interface BountyStorageV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    fundingGoal(overrides?: CallOverrides): Promise<BigNumber>;
+
+    fundingToken(overrides?: CallOverrides): Promise<string>;
+
+    fundingTotals(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getPayoutSchedule(overrides?: CallOverrides): Promise<BigNumber[]>;
+
     isNFT(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
     issuer(overrides?: CallOverrides): Promise<string>;
-
-    newFoo(overrides?: CallOverrides): Promise<BigNumber>;
 
     nftDepositLimit(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -473,12 +676,32 @@ export interface BountyStorageV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    payoutSchedule(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    payoutTokenAddress(overrides?: CallOverrides): Promise<string>;
+
+    payoutVolume(overrides?: CallOverrides): Promise<BigNumber>;
+
     refunded(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    setFundingGoal(
+      _fundingToken: PromiseOrValue<string>,
+      _fundingGoal: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     status(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tierClaimed(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     tokenAddress(
       arg0: PromiseOrValue<BytesLike>,
@@ -496,7 +719,10 @@ export interface BountyStorageV1 extends BaseContract {
     ): Promise<BigNumber>;
   };
 
-  filters: {};
+  filters: {
+    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    Initialized(version?: null): InitializedEventFilter;
+  };
 
   estimateGas: {
     bountyClosedTime(overrides?: CallOverrides): Promise<BigNumber>;
@@ -504,6 +730,13 @@ export interface BountyStorageV1 extends BaseContract {
     bountyCreatedTime(overrides?: CallOverrides): Promise<BigNumber>;
 
     bountyId(overrides?: CallOverrides): Promise<BigNumber>;
+
+    bountyType(overrides?: CallOverrides): Promise<BigNumber>;
+
+    claimantId(
+      arg0: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     closer(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -529,14 +762,23 @@ export interface BountyStorageV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    fundingGoal(overrides?: CallOverrides): Promise<BigNumber>;
+
+    fundingToken(overrides?: CallOverrides): Promise<BigNumber>;
+
+    fundingTotals(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getPayoutSchedule(overrides?: CallOverrides): Promise<BigNumber>;
+
     isNFT(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     issuer(overrides?: CallOverrides): Promise<BigNumber>;
-
-    newFoo(overrides?: CallOverrides): Promise<BigNumber>;
 
     nftDepositLimit(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -562,12 +804,32 @@ export interface BountyStorageV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    payoutSchedule(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    payoutTokenAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
+    payoutVolume(overrides?: CallOverrides): Promise<BigNumber>;
+
     refunded(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    setFundingGoal(
+      _fundingToken: PromiseOrValue<string>,
+      _fundingGoal: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     status(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tierClaimed(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     tokenAddress(
       arg0: PromiseOrValue<BytesLike>,
@@ -591,6 +853,13 @@ export interface BountyStorageV1 extends BaseContract {
     bountyCreatedTime(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     bountyId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    bountyType(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    claimantId(
+      arg0: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     closer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -616,14 +885,23 @@ export interface BountyStorageV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    fundingGoal(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    fundingToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    fundingTotals(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getPayoutSchedule(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     isNFT(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     issuer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    newFoo(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     nftDepositLimit(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -649,12 +927,34 @@ export interface BountyStorageV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    payoutSchedule(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    payoutTokenAddress(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    payoutVolume(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     refunded(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    setFundingGoal(
+      _fundingToken: PromiseOrValue<string>,
+      _fundingGoal: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     status(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    tierClaimed(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     tokenAddress(
       arg0: PromiseOrValue<BytesLike>,

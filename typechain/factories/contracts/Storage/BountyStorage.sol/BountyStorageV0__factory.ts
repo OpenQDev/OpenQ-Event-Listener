@@ -11,6 +11,19 @@ import type {
 
 const _abi = [
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint8",
+        name: "version",
+        type: "uint8",
+      },
+    ],
+    name: "Initialized",
+    type: "event",
+  },
+  {
     inputs: [],
     name: "bountyClosedTime",
     outputs: [
@@ -67,9 +80,9 @@ const _abi = [
     name: "closerData",
     outputs: [
       {
-        internalType: "string",
+        internalType: "bytes",
         name: "",
-        type: "string",
+        type: "bytes",
       },
     ],
     stateMutability: "view",

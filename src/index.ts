@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
 import axios, { AxiosRequestHeaders } from "axios";
 
-import { OpenQV0 } from "../typechain";
-import { abi as OpenQABI } from "../OpenQV0.json";
+import { OpenQV1 } from "../typechain";
+import { abi as OpenQABI } from "../OpenQV1.json";
 
 import eventGenerator from "./eventGenerator";
 
@@ -15,7 +15,7 @@ const provider = new ethers.providers.WebSocketProvider(
 
 const OPENQ_PROXY_ADDRESS = process.env.OPENQ_PROXY_ADDRESS as string;
 
-const openQ = new ethers.Contract(OPENQ_PROXY_ADDRESS, OpenQABI, provider) as OpenQV0;
+const openQ = new ethers.Contract(OPENQ_PROXY_ADDRESS, OpenQABI, provider) as OpenQV1;
 
 const BountyCreatedFilter = openQ.filters.BountyCreated();
 

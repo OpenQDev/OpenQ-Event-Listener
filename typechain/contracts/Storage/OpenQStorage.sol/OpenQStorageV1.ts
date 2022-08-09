@@ -4,7 +4,6 @@
 import type {
   BaseContract,
   BigNumber,
-  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -30,16 +29,14 @@ import type {
 
 export interface OpenQStorageV1Interface extends utils.Interface {
   functions: {
+    "VERSION_1()": FunctionFragment;
     "bountyFactory()": FunctionFragment;
     "bountyIdToAddress(string)": FunctionFragment;
-    "foo()": FunctionFragment;
-    "newStorageVar()": FunctionFragment;
     "openQTokenWhitelist()": FunctionFragment;
     "oracle()": FunctionFragment;
     "owner()": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "setFoo(uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "upgradeTo(address)": FunctionFragment;
     "upgradeToAndCall(address,bytes)": FunctionFragment;
@@ -47,21 +44,20 @@ export interface OpenQStorageV1Interface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "VERSION_1"
       | "bountyFactory"
       | "bountyIdToAddress"
-      | "foo"
-      | "newStorageVar"
       | "openQTokenWhitelist"
       | "oracle"
       | "owner"
       | "proxiableUUID"
       | "renounceOwnership"
-      | "setFoo"
       | "transferOwnership"
       | "upgradeTo"
       | "upgradeToAndCall"
   ): FunctionFragment;
 
+  encodeFunctionData(functionFragment: "VERSION_1", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "bountyFactory",
     values?: undefined
@@ -69,11 +65,6 @@ export interface OpenQStorageV1Interface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "bountyIdToAddress",
     values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(functionFragment: "foo", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "newStorageVar",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "openQTokenWhitelist",
@@ -90,10 +81,6 @@ export interface OpenQStorageV1Interface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "setFoo",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [PromiseOrValue<string>]
   ): string;
@@ -106,17 +93,13 @@ export interface OpenQStorageV1Interface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
   ): string;
 
+  decodeFunctionResult(functionFragment: "VERSION_1", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "bountyFactory",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "bountyIdToAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "foo", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "newStorageVar",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -133,7 +116,6 @@ export interface OpenQStorageV1Interface extends utils.Interface {
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setFoo", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
@@ -147,6 +129,7 @@ export interface OpenQStorageV1Interface extends utils.Interface {
   events: {
     "AdminChanged(address,address)": EventFragment;
     "BeaconUpgraded(address)": EventFragment;
+    "Initialized(uint8)": EventFragment;
     "OracleTransferred(address,address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Upgraded(address)": EventFragment;
@@ -154,6 +137,7 @@ export interface OpenQStorageV1Interface extends utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
@@ -179,6 +163,13 @@ export type BeaconUpgradedEvent = TypedEvent<
 >;
 
 export type BeaconUpgradedEventFilter = TypedEventFilter<BeaconUpgradedEvent>;
+
+export interface InitializedEventObject {
+  version: number;
+}
+export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
+
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
 export interface OracleTransferredEventObject {
   previousOracle: string;
@@ -238,16 +229,14 @@ export interface OpenQStorageV1 extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    VERSION_1(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     bountyFactory(overrides?: CallOverrides): Promise<[string]>;
 
     bountyIdToAddress(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    foo(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    newStorageVar(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     openQTokenWhitelist(overrides?: CallOverrides): Promise<[string]>;
 
@@ -258,11 +247,6 @@ export interface OpenQStorageV1 extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setFoo(
-      _foo: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -283,16 +267,14 @@ export interface OpenQStorageV1 extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  VERSION_1(overrides?: CallOverrides): Promise<BigNumber>;
+
   bountyFactory(overrides?: CallOverrides): Promise<string>;
 
   bountyIdToAddress(
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<string>;
-
-  foo(overrides?: CallOverrides): Promise<BigNumber>;
-
-  newStorageVar(overrides?: CallOverrides): Promise<BigNumber>;
 
   openQTokenWhitelist(overrides?: CallOverrides): Promise<string>;
 
@@ -303,11 +285,6 @@ export interface OpenQStorageV1 extends BaseContract {
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setFoo(
-    _foo: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -328,16 +305,14 @@ export interface OpenQStorageV1 extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    VERSION_1(overrides?: CallOverrides): Promise<BigNumber>;
+
     bountyFactory(overrides?: CallOverrides): Promise<string>;
 
     bountyIdToAddress(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    foo(overrides?: CallOverrides): Promise<BigNumber>;
-
-    newStorageVar(overrides?: CallOverrides): Promise<BigNumber>;
 
     openQTokenWhitelist(overrides?: CallOverrides): Promise<string>;
 
@@ -348,11 +323,6 @@ export interface OpenQStorageV1 extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
-
-    setFoo(
-      _foo: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
@@ -388,6 +358,9 @@ export interface OpenQStorageV1 extends BaseContract {
       beacon?: PromiseOrValue<string> | null
     ): BeaconUpgradedEventFilter;
 
+    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    Initialized(version?: null): InitializedEventFilter;
+
     "OracleTransferred(address,address)"(
       previousOracle?: PromiseOrValue<string> | null,
       newOracle?: PromiseOrValue<string> | null
@@ -415,16 +388,14 @@ export interface OpenQStorageV1 extends BaseContract {
   };
 
   estimateGas: {
+    VERSION_1(overrides?: CallOverrides): Promise<BigNumber>;
+
     bountyFactory(overrides?: CallOverrides): Promise<BigNumber>;
 
     bountyIdToAddress(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    foo(overrides?: CallOverrides): Promise<BigNumber>;
-
-    newStorageVar(overrides?: CallOverrides): Promise<BigNumber>;
 
     openQTokenWhitelist(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -435,11 +406,6 @@ export interface OpenQStorageV1 extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setFoo(
-      _foo: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -461,16 +427,14 @@ export interface OpenQStorageV1 extends BaseContract {
   };
 
   populateTransaction: {
+    VERSION_1(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     bountyFactory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     bountyIdToAddress(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    foo(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    newStorageVar(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     openQTokenWhitelist(
       overrides?: CallOverrides
@@ -483,11 +447,6 @@ export interface OpenQStorageV1 extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setFoo(
-      _foo: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -28,21 +28,38 @@ import type {
   PromiseOrValue,
 } from "../../../common";
 
+export declare namespace OpenQDefinitions {
+  export type OperationStruct = {
+    operationType: PromiseOrValue<BigNumberish>;
+    data: PromiseOrValue<BytesLike>;
+  };
+
+  export type OperationStructOutput = [number, string] & {
+    operationType: number;
+    data: string;
+  };
+}
+
 export interface OpenQV1Interface extends utils.Interface {
   functions: {
+    "VERSION_1()": FunctionFragment;
     "bountyAddressToBountyId(address)": FunctionFragment;
     "bountyFactory()": FunctionFragment;
     "bountyIdToAddress(string)": FunctionFragment;
+    "bountyIsClaimable(string)": FunctionFragment;
     "bountyIsOpen(string)": FunctionFragment;
-    "claimBounty(string,address,string)": FunctionFragment;
-    "foo()": FunctionFragment;
+    "bountyType(string)": FunctionFragment;
+    "claimBounty(string,address,bytes)": FunctionFragment;
+    "closeCompetition(string)": FunctionFragment;
+    "closeOngoing(string)": FunctionFragment;
+    "extendDeposit(string,bytes32,uint256)": FunctionFragment;
     "fundBountyNFT(string,address,uint256,uint256)": FunctionFragment;
     "fundBountyToken(string,address,uint256,uint256)": FunctionFragment;
     "getImplementation()": FunctionFragment;
     "initialize(address)": FunctionFragment;
     "isWhitelisted(address)": FunctionFragment;
-    "mintBounty(string,string)": FunctionFragment;
-    "newStorageVar()": FunctionFragment;
+    "mintBounty(string,string,(uint32,bytes))": FunctionFragment;
+    "ongoingClaimed(string,string,string)": FunctionFragment;
     "openQTokenWhitelist()": FunctionFragment;
     "oracle()": FunctionFragment;
     "owner()": FunctionFragment;
@@ -50,8 +67,9 @@ export interface OpenQV1Interface extends utils.Interface {
     "refundDeposit(string,bytes32)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setBountyFactory(address)": FunctionFragment;
-    "setFoo(uint256)": FunctionFragment;
     "setTokenWhitelist(address)": FunctionFragment;
+    "tierClaimed(string,uint256)": FunctionFragment;
+    "tokenAddressLimitReached(string)": FunctionFragment;
     "transferOracle(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "upgradeTo(address)": FunctionFragment;
@@ -60,19 +78,24 @@ export interface OpenQV1Interface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "VERSION_1"
       | "bountyAddressToBountyId"
       | "bountyFactory"
       | "bountyIdToAddress"
+      | "bountyIsClaimable"
       | "bountyIsOpen"
+      | "bountyType"
       | "claimBounty"
-      | "foo"
+      | "closeCompetition"
+      | "closeOngoing"
+      | "extendDeposit"
       | "fundBountyNFT"
       | "fundBountyToken"
       | "getImplementation"
       | "initialize"
       | "isWhitelisted"
       | "mintBounty"
-      | "newStorageVar"
+      | "ongoingClaimed"
       | "openQTokenWhitelist"
       | "oracle"
       | "owner"
@@ -80,14 +103,16 @@ export interface OpenQV1Interface extends utils.Interface {
       | "refundDeposit"
       | "renounceOwnership"
       | "setBountyFactory"
-      | "setFoo"
       | "setTokenWhitelist"
+      | "tierClaimed"
+      | "tokenAddressLimitReached"
       | "transferOracle"
       | "transferOwnership"
       | "upgradeTo"
       | "upgradeToAndCall"
   ): FunctionFragment;
 
+  encodeFunctionData(functionFragment: "VERSION_1", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "bountyAddressToBountyId",
     values: [PromiseOrValue<string>]
@@ -101,7 +126,15 @@ export interface OpenQV1Interface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "bountyIsClaimable",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "bountyIsOpen",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "bountyType",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -109,10 +142,25 @@ export interface OpenQV1Interface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
-      PromiseOrValue<string>
+      PromiseOrValue<BytesLike>
     ]
   ): string;
-  encodeFunctionData(functionFragment: "foo", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "closeCompetition",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "closeOngoing",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "extendDeposit",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
   encodeFunctionData(
     functionFragment: "fundBountyNFT",
     values: [
@@ -145,11 +193,19 @@ export interface OpenQV1Interface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "mintBounty",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      OpenQDefinitions.OperationStruct
+    ]
   ): string;
   encodeFunctionData(
-    functionFragment: "newStorageVar",
-    values?: undefined
+    functionFragment: "ongoingClaimed",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "openQTokenWhitelist",
@@ -174,11 +230,15 @@ export interface OpenQV1Interface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setFoo",
-    values: [PromiseOrValue<BigNumberish>]
+    functionFragment: "setTokenWhitelist",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setTokenWhitelist",
+    functionFragment: "tierClaimed",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "tokenAddressLimitReached",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -198,6 +258,7 @@ export interface OpenQV1Interface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
   ): string;
 
+  decodeFunctionResult(functionFragment: "VERSION_1", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "bountyAddressToBountyId",
     data: BytesLike
@@ -211,14 +272,30 @@ export interface OpenQV1Interface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "bountyIsClaimable",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "bountyIsOpen",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "bountyType", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "claimBounty",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "foo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "closeCompetition",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "closeOngoing",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "extendDeposit",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "fundBountyNFT",
     data: BytesLike
@@ -238,7 +315,7 @@ export interface OpenQV1Interface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "mintBounty", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "newStorageVar",
+    functionFragment: "ongoingClaimed",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -263,9 +340,16 @@ export interface OpenQV1Interface extends utils.Interface {
     functionFragment: "setBountyFactory",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setFoo", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setTokenWhitelist",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "tierClaimed",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenAddressLimitReached",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -285,15 +369,17 @@ export interface OpenQV1Interface extends utils.Interface {
   events: {
     "AdminChanged(address,address)": EventFragment;
     "BeaconUpgraded(address)": EventFragment;
-    "BountyClosed(string,address,string,address,uint256,string)": EventFragment;
-    "BountyCreated(string,string,address,address,uint256)": EventFragment;
-    "DepositExtended(bytes32,uint256)": EventFragment;
-    "DepositRefunded(bytes32,string,address,string,uint256,address,uint256)": EventFragment;
-    "NFTDepositReceived(bytes32,address,string,string,address,uint256,address,uint256,uint256)": EventFragment;
+    "BountyClosed(string,address,string,address,uint256,uint256,bytes,uint256)": EventFragment;
+    "BountyCreated(string,string,address,address,uint256,uint256,bytes,uint256)": EventFragment;
+    "ClaimSuccess(uint256,uint256,bytes,uint256)": EventFragment;
+    "DepositExtended(bytes32,uint256,uint256,bytes,uint256)": EventFragment;
+    "DepositRefunded(bytes32,string,address,string,uint256,address,uint256,uint256,bytes,uint256)": EventFragment;
+    "Initialized(uint8)": EventFragment;
+    "NFTDepositReceived(bytes32,address,string,string,address,uint256,address,uint256,uint256,uint256,bytes,uint256)": EventFragment;
     "OracleTransferred(address,address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "TokenBalanceClaimed(string,address,string,address,uint256,address,uint256)": EventFragment;
-    "TokenDepositReceived(bytes32,address,string,string,address,uint256,address,uint256,uint256)": EventFragment;
+    "TokenBalanceClaimed(string,address,string,address,uint256,address,uint256,uint256,bytes,uint256)": EventFragment;
+    "TokenDepositReceived(bytes32,address,string,string,address,uint256,address,uint256,uint256,uint256,bytes,uint256)": EventFragment;
     "Upgraded(address)": EventFragment;
   };
 
@@ -301,8 +387,10 @@ export interface OpenQV1Interface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BountyClosed"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BountyCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ClaimSuccess"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DepositExtended"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DepositRefunded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NFTDepositReceived"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
@@ -338,10 +426,12 @@ export interface BountyClosedEventObject {
   organization: string;
   closer: string;
   bountyClosedTime: BigNumber;
-  closerData: string;
+  bountyType: BigNumber;
+  data: string;
+  version: BigNumber;
 }
 export type BountyClosedEvent = TypedEvent<
-  [string, string, string, string, BigNumber, string],
+  [string, string, string, string, BigNumber, BigNumber, string, BigNumber],
   BountyClosedEventObject
 >;
 
@@ -353,20 +443,39 @@ export interface BountyCreatedEventObject {
   issuerAddress: string;
   bountyAddress: string;
   bountyMintTime: BigNumber;
+  bountyType: BigNumber;
+  data: string;
+  version: BigNumber;
 }
 export type BountyCreatedEvent = TypedEvent<
-  [string, string, string, string, BigNumber],
+  [string, string, string, string, BigNumber, BigNumber, string, BigNumber],
   BountyCreatedEventObject
 >;
 
 export type BountyCreatedEventFilter = TypedEventFilter<BountyCreatedEvent>;
 
+export interface ClaimSuccessEventObject {
+  claimTime: BigNumber;
+  bountyType: BigNumber;
+  data: string;
+  version: BigNumber;
+}
+export type ClaimSuccessEvent = TypedEvent<
+  [BigNumber, BigNumber, string, BigNumber],
+  ClaimSuccessEventObject
+>;
+
+export type ClaimSuccessEventFilter = TypedEventFilter<ClaimSuccessEvent>;
+
 export interface DepositExtendedEventObject {
   depositId: string;
   newExpiration: BigNumber;
+  bountyType: BigNumber;
+  data: string;
+  version: BigNumber;
 }
 export type DepositExtendedEvent = TypedEvent<
-  [string, BigNumber],
+  [string, BigNumber, BigNumber, string, BigNumber],
   DepositExtendedEventObject
 >;
 
@@ -380,13 +489,34 @@ export interface DepositRefundedEventObject {
   refundTime: BigNumber;
   tokenAddress: string;
   volume: BigNumber;
+  bountyType: BigNumber;
+  data: string;
+  version: BigNumber;
 }
 export type DepositRefundedEvent = TypedEvent<
-  [string, string, string, string, BigNumber, string, BigNumber],
+  [
+    string,
+    string,
+    string,
+    string,
+    BigNumber,
+    string,
+    BigNumber,
+    BigNumber,
+    string,
+    BigNumber
+  ],
   DepositRefundedEventObject
 >;
 
 export type DepositRefundedEventFilter = TypedEventFilter<DepositRefundedEvent>;
+
+export interface InitializedEventObject {
+  version: number;
+}
+export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
+
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
 export interface NFTDepositReceivedEventObject {
   depositId: string;
@@ -398,6 +528,9 @@ export interface NFTDepositReceivedEventObject {
   sender: string;
   expiration: BigNumber;
   tokenId: BigNumber;
+  bountyType: BigNumber;
+  data: string;
+  version: BigNumber;
 }
 export type NFTDepositReceivedEvent = TypedEvent<
   [
@@ -409,6 +542,9 @@ export type NFTDepositReceivedEvent = TypedEvent<
     BigNumber,
     string,
     BigNumber,
+    BigNumber,
+    BigNumber,
+    string,
     BigNumber
   ],
   NFTDepositReceivedEventObject
@@ -449,9 +585,23 @@ export interface TokenBalanceClaimedEventObject {
   payoutTime: BigNumber;
   tokenAddress: string;
   volume: BigNumber;
+  bountyType: BigNumber;
+  data: string;
+  version: BigNumber;
 }
 export type TokenBalanceClaimedEvent = TypedEvent<
-  [string, string, string, string, BigNumber, string, BigNumber],
+  [
+    string,
+    string,
+    string,
+    string,
+    BigNumber,
+    string,
+    BigNumber,
+    BigNumber,
+    string,
+    BigNumber
+  ],
   TokenBalanceClaimedEventObject
 >;
 
@@ -468,6 +618,9 @@ export interface TokenDepositReceivedEventObject {
   sender: string;
   expiration: BigNumber;
   volume: BigNumber;
+  bountyType: BigNumber;
+  data: string;
+  version: BigNumber;
 }
 export type TokenDepositReceivedEvent = TypedEvent<
   [
@@ -479,6 +632,9 @@ export type TokenDepositReceivedEvent = TypedEvent<
     BigNumber,
     string,
     BigNumber,
+    BigNumber,
+    BigNumber,
+    string,
     BigNumber
   ],
   TokenDepositReceivedEventObject
@@ -521,6 +677,8 @@ export interface OpenQV1 extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    VERSION_1(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     bountyAddressToBountyId(
       _bountyAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -533,19 +691,44 @@ export interface OpenQV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    bountyIsClaimable(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     bountyIsOpen(
       _bountyId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    bountyType(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     claimBounty(
       _bountyId: PromiseOrValue<string>,
       _closer: PromiseOrValue<string>,
-      _closerData: PromiseOrValue<string>,
+      _closerData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    foo(overrides?: CallOverrides): Promise<[BigNumber]>;
+    closeCompetition(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    closeOngoing(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    extendDeposit(
+      _bountyId: PromiseOrValue<string>,
+      _depositId: PromiseOrValue<BytesLike>,
+      _seconds: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     fundBountyNFT(
       _bountyId: PromiseOrValue<string>,
@@ -578,10 +761,16 @@ export interface OpenQV1 extends BaseContract {
     mintBounty(
       _bountyId: PromiseOrValue<string>,
       _organization: PromiseOrValue<string>,
+      _initOperation: OpenQDefinitions.OperationStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    newStorageVar(overrides?: CallOverrides): Promise<[BigNumber]>;
+    ongoingClaimed(
+      _bountyId: PromiseOrValue<string>,
+      claimant: PromiseOrValue<string>,
+      claimantAsset: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     openQTokenWhitelist(overrides?: CallOverrides): Promise<[string]>;
 
@@ -606,15 +795,21 @@ export interface OpenQV1 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setFoo(
-      _foo: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     setTokenWhitelist(
       _openQTokenWhitelist: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    tierClaimed(
+      _bountyId: PromiseOrValue<string>,
+      _tier: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    tokenAddressLimitReached(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     transferOracle(
       _newOracle: PromiseOrValue<string>,
@@ -638,6 +833,8 @@ export interface OpenQV1 extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  VERSION_1(overrides?: CallOverrides): Promise<BigNumber>;
+
   bountyAddressToBountyId(
     _bountyAddress: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -650,19 +847,44 @@ export interface OpenQV1 extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  bountyIsClaimable(
+    _bountyId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   bountyIsOpen(
     _bountyId: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  bountyType(
+    _bountyId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   claimBounty(
     _bountyId: PromiseOrValue<string>,
     _closer: PromiseOrValue<string>,
-    _closerData: PromiseOrValue<string>,
+    _closerData: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  foo(overrides?: CallOverrides): Promise<BigNumber>;
+  closeCompetition(
+    _bountyId: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  closeOngoing(
+    _bountyId: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  extendDeposit(
+    _bountyId: PromiseOrValue<string>,
+    _depositId: PromiseOrValue<BytesLike>,
+    _seconds: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   fundBountyNFT(
     _bountyId: PromiseOrValue<string>,
@@ -695,10 +917,16 @@ export interface OpenQV1 extends BaseContract {
   mintBounty(
     _bountyId: PromiseOrValue<string>,
     _organization: PromiseOrValue<string>,
+    _initOperation: OpenQDefinitions.OperationStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  newStorageVar(overrides?: CallOverrides): Promise<BigNumber>;
+  ongoingClaimed(
+    _bountyId: PromiseOrValue<string>,
+    claimant: PromiseOrValue<string>,
+    claimantAsset: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   openQTokenWhitelist(overrides?: CallOverrides): Promise<string>;
 
@@ -723,15 +951,21 @@ export interface OpenQV1 extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setFoo(
-    _foo: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   setTokenWhitelist(
     _openQTokenWhitelist: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  tierClaimed(
+    _bountyId: PromiseOrValue<string>,
+    _tier: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  tokenAddressLimitReached(
+    _bountyId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   transferOracle(
     _newOracle: PromiseOrValue<string>,
@@ -755,6 +989,8 @@ export interface OpenQV1 extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    VERSION_1(overrides?: CallOverrides): Promise<BigNumber>;
+
     bountyAddressToBountyId(
       _bountyAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -767,19 +1003,44 @@ export interface OpenQV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    bountyIsClaimable(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     bountyIsOpen(
       _bountyId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    bountyType(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     claimBounty(
       _bountyId: PromiseOrValue<string>,
       _closer: PromiseOrValue<string>,
-      _closerData: PromiseOrValue<string>,
+      _closerData: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    foo(overrides?: CallOverrides): Promise<BigNumber>;
+    closeCompetition(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    closeOngoing(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    extendDeposit(
+      _bountyId: PromiseOrValue<string>,
+      _depositId: PromiseOrValue<BytesLike>,
+      _seconds: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     fundBountyNFT(
       _bountyId: PromiseOrValue<string>,
@@ -812,10 +1073,16 @@ export interface OpenQV1 extends BaseContract {
     mintBounty(
       _bountyId: PromiseOrValue<string>,
       _organization: PromiseOrValue<string>,
+      _initOperation: OpenQDefinitions.OperationStruct,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    newStorageVar(overrides?: CallOverrides): Promise<BigNumber>;
+    ongoingClaimed(
+      _bountyId: PromiseOrValue<string>,
+      claimant: PromiseOrValue<string>,
+      claimantAsset: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     openQTokenWhitelist(overrides?: CallOverrides): Promise<string>;
 
@@ -838,15 +1105,21 @@ export interface OpenQV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setFoo(
-      _foo: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     setTokenWhitelist(
       _openQTokenWhitelist: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    tierClaimed(
+      _bountyId: PromiseOrValue<string>,
+      _tier: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    tokenAddressLimitReached(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     transferOracle(
       _newOracle: PromiseOrValue<string>,
@@ -887,87 +1160,131 @@ export interface OpenQV1 extends BaseContract {
       beacon?: PromiseOrValue<string> | null
     ): BeaconUpgradedEventFilter;
 
-    "BountyClosed(string,address,string,address,uint256,string)"(
+    "BountyClosed(string,address,string,address,uint256,uint256,bytes,uint256)"(
       bountyId?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
+      bountyAddress?: null,
       organization?: null,
       closer?: null,
       bountyClosedTime?: null,
-      closerData?: null
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): BountyClosedEventFilter;
     BountyClosed(
       bountyId?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
+      bountyAddress?: null,
       organization?: null,
       closer?: null,
       bountyClosedTime?: null,
-      closerData?: null
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): BountyClosedEventFilter;
 
-    "BountyCreated(string,string,address,address,uint256)"(
+    "BountyCreated(string,string,address,address,uint256,uint256,bytes,uint256)"(
       bountyId?: null,
       organization?: null,
       issuerAddress?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
-      bountyMintTime?: null
+      bountyAddress?: null,
+      bountyMintTime?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): BountyCreatedEventFilter;
     BountyCreated(
       bountyId?: null,
       organization?: null,
       issuerAddress?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
-      bountyMintTime?: null
+      bountyAddress?: null,
+      bountyMintTime?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): BountyCreatedEventFilter;
 
-    "DepositExtended(bytes32,uint256)"(
+    "ClaimSuccess(uint256,uint256,bytes,uint256)"(
+      claimTime?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
+    ): ClaimSuccessEventFilter;
+    ClaimSuccess(
+      claimTime?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
+    ): ClaimSuccessEventFilter;
+
+    "DepositExtended(bytes32,uint256,uint256,bytes,uint256)"(
       depositId?: null,
-      newExpiration?: null
+      newExpiration?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): DepositExtendedEventFilter;
     DepositExtended(
       depositId?: null,
-      newExpiration?: null
+      newExpiration?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): DepositExtendedEventFilter;
 
-    "DepositRefunded(bytes32,string,address,string,uint256,address,uint256)"(
+    "DepositRefunded(bytes32,string,address,string,uint256,address,uint256,uint256,bytes,uint256)"(
       depositId?: null,
       bountyId?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
+      bountyAddress?: null,
       organization?: null,
       refundTime?: null,
       tokenAddress?: null,
-      volume?: null
+      volume?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): DepositRefundedEventFilter;
     DepositRefunded(
       depositId?: null,
       bountyId?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
+      bountyAddress?: null,
       organization?: null,
       refundTime?: null,
       tokenAddress?: null,
-      volume?: null
+      volume?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): DepositRefundedEventFilter;
 
-    "NFTDepositReceived(bytes32,address,string,string,address,uint256,address,uint256,uint256)"(
+    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    Initialized(version?: null): InitializedEventFilter;
+
+    "NFTDepositReceived(bytes32,address,string,string,address,uint256,address,uint256,uint256,uint256,bytes,uint256)"(
       depositId?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
+      bountyAddress?: null,
       bountyId?: null,
       organization?: null,
       tokenAddress?: null,
       receiveTime?: null,
       sender?: null,
       expiration?: null,
-      tokenId?: null
+      tokenId?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): NFTDepositReceivedEventFilter;
     NFTDepositReceived(
       depositId?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
+      bountyAddress?: null,
       bountyId?: null,
       organization?: null,
       tokenAddress?: null,
       receiveTime?: null,
       sender?: null,
       expiration?: null,
-      tokenId?: null
+      tokenId?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): NFTDepositReceivedEventFilter;
 
     "OracleTransferred(address,address)"(
@@ -988,46 +1305,58 @@ export interface OpenQV1 extends BaseContract {
       newOwner?: PromiseOrValue<string> | null
     ): OwnershipTransferredEventFilter;
 
-    "TokenBalanceClaimed(string,address,string,address,uint256,address,uint256)"(
+    "TokenBalanceClaimed(string,address,string,address,uint256,address,uint256,uint256,bytes,uint256)"(
       bountyId?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
+      bountyAddress?: null,
       organization?: null,
       closer?: null,
       payoutTime?: null,
       tokenAddress?: null,
-      volume?: null
+      volume?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): TokenBalanceClaimedEventFilter;
     TokenBalanceClaimed(
       bountyId?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
+      bountyAddress?: null,
       organization?: null,
       closer?: null,
       payoutTime?: null,
       tokenAddress?: null,
-      volume?: null
+      volume?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): TokenBalanceClaimedEventFilter;
 
-    "TokenDepositReceived(bytes32,address,string,string,address,uint256,address,uint256,uint256)"(
+    "TokenDepositReceived(bytes32,address,string,string,address,uint256,address,uint256,uint256,uint256,bytes,uint256)"(
       depositId?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
+      bountyAddress?: null,
       bountyId?: null,
       organization?: null,
       tokenAddress?: null,
       receiveTime?: null,
       sender?: null,
       expiration?: null,
-      volume?: null
+      volume?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): TokenDepositReceivedEventFilter;
     TokenDepositReceived(
       depositId?: null,
-      bountyAddress?: PromiseOrValue<string> | null,
+      bountyAddress?: null,
       bountyId?: null,
       organization?: null,
       tokenAddress?: null,
       receiveTime?: null,
       sender?: null,
       expiration?: null,
-      volume?: null
+      volume?: null,
+      bountyType?: null,
+      data?: null,
+      version?: null
     ): TokenDepositReceivedEventFilter;
 
     "Upgraded(address)"(
@@ -1039,6 +1368,8 @@ export interface OpenQV1 extends BaseContract {
   };
 
   estimateGas: {
+    VERSION_1(overrides?: CallOverrides): Promise<BigNumber>;
+
     bountyAddressToBountyId(
       _bountyAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1051,7 +1382,17 @@ export interface OpenQV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    bountyIsClaimable(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     bountyIsOpen(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    bountyType(
       _bountyId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1059,11 +1400,26 @@ export interface OpenQV1 extends BaseContract {
     claimBounty(
       _bountyId: PromiseOrValue<string>,
       _closer: PromiseOrValue<string>,
-      _closerData: PromiseOrValue<string>,
+      _closerData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    foo(overrides?: CallOverrides): Promise<BigNumber>;
+    closeCompetition(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    closeOngoing(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    extendDeposit(
+      _bountyId: PromiseOrValue<string>,
+      _depositId: PromiseOrValue<BytesLike>,
+      _seconds: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     fundBountyNFT(
       _bountyId: PromiseOrValue<string>,
@@ -1096,10 +1452,16 @@ export interface OpenQV1 extends BaseContract {
     mintBounty(
       _bountyId: PromiseOrValue<string>,
       _organization: PromiseOrValue<string>,
+      _initOperation: OpenQDefinitions.OperationStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    newStorageVar(overrides?: CallOverrides): Promise<BigNumber>;
+    ongoingClaimed(
+      _bountyId: PromiseOrValue<string>,
+      claimant: PromiseOrValue<string>,
+      claimantAsset: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     openQTokenWhitelist(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1124,14 +1486,20 @@ export interface OpenQV1 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setFoo(
-      _foo: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     setTokenWhitelist(
       _openQTokenWhitelist: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    tierClaimed(
+      _bountyId: PromiseOrValue<string>,
+      _tier: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    tokenAddressLimitReached(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     transferOracle(
@@ -1157,6 +1525,8 @@ export interface OpenQV1 extends BaseContract {
   };
 
   populateTransaction: {
+    VERSION_1(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     bountyAddressToBountyId(
       _bountyAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1169,7 +1539,17 @@ export interface OpenQV1 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    bountyIsClaimable(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     bountyIsOpen(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    bountyType(
       _bountyId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1177,11 +1557,26 @@ export interface OpenQV1 extends BaseContract {
     claimBounty(
       _bountyId: PromiseOrValue<string>,
       _closer: PromiseOrValue<string>,
-      _closerData: PromiseOrValue<string>,
+      _closerData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    foo(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    closeCompetition(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    closeOngoing(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    extendDeposit(
+      _bountyId: PromiseOrValue<string>,
+      _depositId: PromiseOrValue<BytesLike>,
+      _seconds: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     fundBountyNFT(
       _bountyId: PromiseOrValue<string>,
@@ -1214,10 +1609,16 @@ export interface OpenQV1 extends BaseContract {
     mintBounty(
       _bountyId: PromiseOrValue<string>,
       _organization: PromiseOrValue<string>,
+      _initOperation: OpenQDefinitions.OperationStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    newStorageVar(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    ongoingClaimed(
+      _bountyId: PromiseOrValue<string>,
+      claimant: PromiseOrValue<string>,
+      claimantAsset: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     openQTokenWhitelist(
       overrides?: CallOverrides
@@ -1244,14 +1645,20 @@ export interface OpenQV1 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setFoo(
-      _foo: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     setTokenWhitelist(
       _openQTokenWhitelist: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    tierClaimed(
+      _bountyId: PromiseOrValue<string>,
+      _tier: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    tokenAddressLimitReached(
+      _bountyId: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     transferOracle(
