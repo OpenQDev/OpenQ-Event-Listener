@@ -37,7 +37,8 @@ async function main() {
 			organization,
 			issuerAddress,
 			bountyAddress,
-			bountyMintTime
+			bountyMintTime,
+			bountyType,
 		) => {
 			console.log({
 				bountyId,
@@ -45,6 +46,7 @@ async function main() {
 				issuerAddress,
 				bountyAddress,
 				bountyMintTime,
+				bountyType,
 			});
 
 			const headers = {
@@ -59,6 +61,7 @@ async function main() {
 						bountyAddress,
 						bountyId,
 						organization,
+						bountyType,
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
@@ -166,7 +169,7 @@ async function main() {
 			bountyId,
 			bountyAddress,
 			organization,
-			closer,
+			closer,	
 			bountyClosedTime,
 			closerData
 		) => {
