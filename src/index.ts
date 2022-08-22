@@ -169,7 +169,7 @@ async function main() {
 			bountyId,
 			bountyAddress,
 			organization,
-			closer,	
+			closer, 
 			bountyClosedTime,
 			closerData
 		) => {
