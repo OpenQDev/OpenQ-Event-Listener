@@ -37,7 +37,10 @@ async function main() {
 			organization,
 			issuerAddress,
 			bountyAddress,
-			bountyMintTime
+			bountyMintTime,
+			bountyType,
+			data,
+			version
 		) => {
 			console.log({
 				bountyId,
@@ -45,6 +48,9 @@ async function main() {
 				issuerAddress,
 				bountyAddress,
 				bountyMintTime,
+				bountyType,
+				data,
+				version
 			});
 
 			const headers = {
@@ -55,10 +61,16 @@ async function main() {
 				console.log('calling')
 				const result = await axios.post(
 					`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`,
+
 					eventGenerator("BountyCreated", {
-						bountyAddress,
 						bountyId,
 						organization,
+						issuerAddress,
+						bountyAddress,
+						bountyMintTime,
+						bountyType,
+						data,
+						version
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
@@ -80,7 +92,10 @@ async function main() {
 			receiveTime,
 			sender,
 			expiration,
-			volume
+			volume,
+			bountyType,
+			data,
+			version
 		) => {
 			console.log({
 				depositId,
@@ -92,6 +107,9 @@ async function main() {
 				sender,
 				expiration,
 				volume,
+				bountyType,
+				data,
+				version
 			});
 
 			const headers = {
@@ -102,10 +120,18 @@ async function main() {
 				const result = await axios.post(
 					`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`,
 					eventGenerator("TokenDepositReceived", {
-						tokenAddress,
-						volume,
+						depositId,
 						bountyAddress,
 						bountyId,
+						organization,
+						tokenAddress,
+						receiveTime,
+						sender,
+						expiration,
+						volume,
+						bountyType,
+						data,
+						version
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
@@ -124,7 +150,10 @@ async function main() {
 			organization,
 			refundTime,
 			tokenAddress,
-			volume
+			volume,
+			bountyType,
+			data,
+			version
 		) => {
 			console.log({
 				depositId,
@@ -134,6 +163,9 @@ async function main() {
 				refundTime,
 				tokenAddress,
 				volume,
+				bountyType,
+				data,
+				version
 			});
 
 			const headers = {
@@ -151,6 +183,9 @@ async function main() {
 						refundTime,
 						tokenAddress,
 						volume,
+						bountyType,
+						data,
+						version
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
@@ -168,7 +203,9 @@ async function main() {
 			organization,
 			closer,
 			bountyClosedTime,
-			closerData
+			bountyType,
+			data,
+			version
 		) => {
 			console.log({
 				bountyId,
@@ -176,7 +213,9 @@ async function main() {
 				organization,
 				closer,
 				bountyClosedTime,
-				closerData
+				bountyType,
+				data,
+				version
 			});
 
 			const headers = {
@@ -192,7 +231,9 @@ async function main() {
 						organization,
 						closer,
 						bountyClosedTime,
-						closerData
+						bountyType,
+						data,
+						version
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
