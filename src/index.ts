@@ -14,8 +14,12 @@ const provider = new ethers.providers.WebSocketProvider(
 );
 
 const OPENQ_PROXY_ADDRESS = process.env.OPENQ_PROXY_ADDRESS as string;
+const DEPOSIT_MANAGER_PROXY_ADDRESS = process.env.DEPOSIT_MANAGER_PROXY_ADDRESS as string;
+const CLAIM_MANAGER_PROXY_ADDRESS = process.env.CLAIM_MANAGER_PROXY_ADDRESS as string;
 
 const openQ = new ethers.Contract(OPENQ_PROXY_ADDRESS, OpenQABI, provider) as OpenQV1;
+const depositManager = new ethers.Contract(DEPOSIT_MANAGER_PROXY_ADDRESS, OpenQABI, provider) as OpenQV1;
+const claimManager = new ethers.Contract(CLAIM_MANAGER_PROXY_ADDRESS, OpenQABI, provider) as OpenQV1;
 
 const BountyCreatedFilter = openQ.filters.BountyCreated();
 
@@ -24,6 +28,8 @@ const TokenDepositReceivedFilter = openQ.filters.TokenDepositReceived();
 const DepositRefundedFilter = openQ.filters.DepositRefunded();
 
 const BountyClosedFilter = openQ.filters.BountyClosed();
+
+const TokenBalanceClaimedFilter = openQ.filters.TokenBalanceClaimed();
 
 async function main() {
 	const events = await openQ.queryFilter(BountyCreatedFilter);
@@ -81,7 +87,7 @@ async function main() {
 		}
 	);
 
-	openQ.on(
+	depositManager.on(
 		TokenDepositReceivedFilter,
 		async (
 			depositId,
@@ -141,7 +147,7 @@ async function main() {
 		}
 	);
 
-	openQ.on(
+	depositManager.on(
 		DepositRefundedFilter,
 		async (
 			depositId,
@@ -181,6 +187,60 @@ async function main() {
 						bountyAddress,
 						organization,
 						refundTime,
+						tokenAddress,
+						volume,
+						bountyType,
+						data,
+						version
+					}),
+					{ headers: headers as AxiosRequestHeaders }
+				);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	);
+
+	claimManager.on(
+		TokenBalanceClaimedFilter,
+		async (
+			bountyId,
+			bountyAddress,
+			organization,
+			closer,
+			payoutTime,
+			tokenAddress,
+			volume,
+			bountyType,
+			data,
+			version
+		) => {
+			console.log({
+				bountyId,
+				bountyAddress,
+				organization,
+				closer,
+				payoutTime,
+				tokenAddress,
+				volume,
+				bountyType,
+				data,
+				version
+			});
+
+			const headers = {
+				Authorization: process.env.OPENQ_API_SECRET,
+			};
+
+			try {
+				const result = await axios.post(
+					`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`,
+					eventGenerator("TokenBalanceClaimed", {
+						bountyId,
+						bountyAddress,
+						organization,
+						closer,
+						payoutTime,
 						tokenAddress,
 						volume,
 						bountyType,
