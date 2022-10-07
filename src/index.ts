@@ -3,6 +3,8 @@ import axios, { AxiosRequestHeaders } from "axios";
 
 import { OpenQV1 } from "../typechain";
 import { abi as OpenQABI } from "../OpenQV1.json";
+import { abi as DepositManagerABI } from "../DepositManager.json";
+import { abi as ClaimManagerABI } from "../ClaimManager.json";
 
 import eventGenerator from "./eventGenerator";
 
@@ -18,18 +20,18 @@ const DEPOSIT_MANAGER_PROXY_ADDRESS = process.env.DEPOSIT_MANAGER_PROXY_ADDRESS 
 const CLAIM_MANAGER_PROXY_ADDRESS = process.env.CLAIM_MANAGER_PROXY_ADDRESS as string;
 
 const openQ = new ethers.Contract(OPENQ_PROXY_ADDRESS, OpenQABI, provider) as OpenQV1;
-const depositManager = new ethers.Contract(DEPOSIT_MANAGER_PROXY_ADDRESS, OpenQABI, provider) as OpenQV1;
-const claimManager = new ethers.Contract(CLAIM_MANAGER_PROXY_ADDRESS, OpenQABI, provider) as OpenQV1;
+const depositManager = new ethers.Contract(DEPOSIT_MANAGER_PROXY_ADDRESS, DepositManagerABI, provider) as OpenQV1;
+const claimManager = new ethers.Contract(CLAIM_MANAGER_PROXY_ADDRESS, ClaimManagerABI, provider) as OpenQV1;
 
 const BountyCreatedFilter = openQ.filters.BountyCreated();
 
-const TokenDepositReceivedFilter = openQ.filters.TokenDepositReceived();
+const TokenDepositReceivedFilter = depositManager.filters.TokenDepositReceived();
 
-const DepositRefundedFilter = openQ.filters.DepositRefunded();
+const DepositRefundedFilter = depositManager.filters.DepositRefunded();
 
 const BountyClosedFilter = openQ.filters.BountyClosed();
 
-const TokenBalanceClaimedFilter = openQ.filters.TokenBalanceClaimed();
+const TokenBalanceClaimedFilter = claimManager.filters.TokenBalanceClaimed();
 
 async function main() {
 	const events = await openQ.queryFilter(BountyCreatedFilter);

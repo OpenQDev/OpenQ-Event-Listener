@@ -1,31 +1,5 @@
-## Getting Started
+## 
 
-* run `yarn start`
-  * prints existing events
-  * listens to new events
-* deploy the contracts locally from `OpenQ-Contracts repo`
-  * `yarn deploy:localhost`
-* open hardhat console in the `OpenQ-Contracts` repo
-  * `yarn hardhat console --network localhost`
-* mint a new bounty
-    * load the provider
-      * `provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545');`
-
-    * load the artifact
-      * `artifact = require('./artifacts/contracts/OpenQ/Implementations/OpenQV1.sol/OpenQV1.json');`
-
-    * load the contract
-      * `openQ = new ethers.Contract('0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9', artifact.abi, provider.getSigner());`
-
-		* get mint data
-			* `abiCoder = new ethers.utils.AbiCoder;`
-			* `abiEncodedParams = abiCoder.encode(["address", "uint256"], ['0x5FbDB2315678afecb367f032d93F642f64180aa3', '100']);`
-			* `ongoingBountyInitOperation = [1, abiEncodedParams];`
-
-    * mint a new bounty
-      * `await openQ.mintBounty((Math.random(1)*100).toString(), 'abc', ongoingBountyInitOperation);`
-
-##
 provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545');artifact = require('./artifacts/contracts/OpenQ/Implementations/OpenQV1.sol/OpenQV1.json');openQ = new ethers.Contract('0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9', artifact.abi, provider.getSigner());abiCoder = new ethers.utils.AbiCoder;abiEncodedParams = abiCoder.encode(["address", "uint256"], ['0x5FbDB2315678afecb367f032d93F642f64180aa3', '100']);ongoingBountyInitOperation = [1, abiEncodedParams];txn = await openQ.mintBounty((Math.random(1)*100).toString(), 'abc', ongoingBountyInitOperation);receipt = await txn.wait();console.log(receipt);receipt.events.forEach(event => {console.log(event.eventSignature);console.log(event.args);});
 
 
