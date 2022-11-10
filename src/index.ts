@@ -36,8 +36,6 @@ const TokenBalanceClaimedFilter = claimManager.filters.TokenBalanceClaimed();
 async function main() {
 	const events = await openQ.queryFilter(BountyCreatedFilter);
 
-	console.log("---------------------------------");
-
 	openQ.on(
 		BountyCreatedFilter,
 		async (
@@ -50,23 +48,12 @@ async function main() {
 			data,
 			version
 		) => {
-			console.log({
-				bountyId,
-				organization,
-				issuerAddress,
-				bountyAddress,
-				bountyMintTime,
-				bountyType,
-				data,
-				version
-			});
 
 			const headers = {
 				Authorization: process.env.OPENQ_API_SECRET,
 			};
 
 			try {
-				console.log('calling')
 				const result = await axios.post(
 					`${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`,
 
@@ -82,7 +69,6 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
-				console.log(result)
 			} catch (error) {
 				console.error(error);
 			}
@@ -105,20 +91,6 @@ async function main() {
 			data,
 			version
 		) => {
-			console.log({
-				depositId,
-				bountyAddress,
-				bountyId,
-				organization,
-				tokenAddress,
-				receiveTime,
-				sender,
-				expiration,
-				volume,
-				bountyType,
-				data,
-				version
-			});
 
 			const headers = {
 				Authorization: process.env.OPENQ_API_SECRET,
@@ -163,18 +135,6 @@ async function main() {
 			data,
 			version
 		) => {
-			console.log({
-				depositId,
-				bountyId,
-				bountyAddress,
-				organization,
-				refundTime,
-				tokenAddress,
-				volume,
-				bountyType,
-				data,
-				version
-			});
 
 			const headers = {
 				Authorization: process.env.OPENQ_API_SECRET,
@@ -217,18 +177,6 @@ async function main() {
 			data,
 			version
 		) => {
-			console.log({
-				bountyId,
-				bountyAddress,
-				organization,
-				closer,
-				payoutTime,
-				tokenAddress,
-				volume,
-				bountyType,
-				data,
-				version
-			});
 
 			const headers = {
 				Authorization: process.env.OPENQ_API_SECRET,
@@ -269,16 +217,6 @@ async function main() {
 			data,
 			version
 		) => {
-			console.log({
-				bountyId,
-				bountyAddress,
-				organization,
-				closer,
-				bountyClosedTime,
-				bountyType,
-				data,
-				version
-			});
 
 			const headers = {
 				Authorization: process.env.OPENQ_API_SECRET,
@@ -299,7 +237,6 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
-				console.log(result);
 			} catch (error) {
 				console.error(error);
 			}
