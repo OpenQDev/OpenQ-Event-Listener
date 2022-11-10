@@ -69,8 +69,8 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
-			} catch (error) {
-				console.error(error);
+			} catch (error: any) {
+				console.error(error.response);
 			}
 		}
 	);
@@ -115,8 +115,8 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
-			} catch (error) {
-				console.error(error);
+			} catch (error: any) {
+				console.error(error.response);
 			}
 		}
 	);
@@ -157,8 +157,8 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
-			} catch (error) {
-				console.error(error);
+			} catch (error: any) {
+				console.error(error.response);
 			}
 		}
 	);
@@ -199,8 +199,8 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
-			} catch (error) {
-				console.error(error);
+			} catch (error: any) {
+				console.error(error.response);
 			}
 		}
 	);
@@ -237,8 +237,8 @@ async function main() {
 					}),
 					{ headers: headers as AxiosRequestHeaders }
 				);
-			} catch (error) {
-				console.error(error);
+			} catch (error: any) {
+				console.error(error.response);
 			}
 		}
 	);
