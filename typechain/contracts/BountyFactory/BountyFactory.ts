@@ -28,12 +28,12 @@ import type {
 } from "../../common";
 
 export declare namespace OpenQDefinitions {
-  export type OperationStruct = {
+  export type InitOperationStruct = {
     operationType: PromiseOrValue<BigNumberish>;
     data: PromiseOrValue<BytesLike>;
   };
 
-  export type OperationStructOutput = [number, string] & {
+  export type InitOperationStructOutput = [number, string] & {
     operationType: number;
     data: string;
   };
@@ -41,30 +41,51 @@ export declare namespace OpenQDefinitions {
 
 export interface BountyFactoryInterface extends utils.Interface {
   functions: {
-    "getBeacon()": FunctionFragment;
-    "mintBounty(string,address,string,(uint32,bytes))": FunctionFragment;
+    "atomicBountyBeacon()": FunctionFragment;
+    "mintBounty(string,address,string,address,address,(uint32,bytes))": FunctionFragment;
     "openQ()": FunctionFragment;
+    "tieredFixedBountyBeacon()": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "getBeacon" | "mintBounty" | "openQ"
+    nameOrSignatureOrTopic:
+      | "atomicBountyBeacon"
+      | "mintBounty"
+      | "openQ"
+      | "tieredFixedBountyBeacon"
   ): FunctionFragment;
 
-  encodeFunctionData(functionFragment: "getBeacon", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "atomicBountyBeacon",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "mintBounty",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
-      OpenQDefinitions.OperationStruct
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      OpenQDefinitions.InitOperationStruct
     ]
   ): string;
   encodeFunctionData(functionFragment: "openQ", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "tieredFixedBountyBeacon",
+    values?: undefined
+  ): string;
 
-  decodeFunctionResult(functionFragment: "getBeacon", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "atomicBountyBeacon",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "mintBounty", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "openQ", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "tieredFixedBountyBeacon",
+    data: BytesLike
+  ): Result;
 
   events: {
     "Initialized(uint8)": EventFragment;
@@ -107,43 +128,55 @@ export interface BountyFactory extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    getBeacon(overrides?: CallOverrides): Promise<[string]>;
+    atomicBountyBeacon(overrides?: CallOverrides): Promise<[string]>;
 
     mintBounty(
       _id: PromiseOrValue<string>,
       _issuer: PromiseOrValue<string>,
       _organization: PromiseOrValue<string>,
-      operation: OpenQDefinitions.OperationStruct,
+      _claimManager: PromiseOrValue<string>,
+      _depositManager: PromiseOrValue<string>,
+      _operation: OpenQDefinitions.InitOperationStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     openQ(overrides?: CallOverrides): Promise<[string]>;
+
+    tieredFixedBountyBeacon(overrides?: CallOverrides): Promise<[string]>;
   };
 
-  getBeacon(overrides?: CallOverrides): Promise<string>;
+  atomicBountyBeacon(overrides?: CallOverrides): Promise<string>;
 
   mintBounty(
     _id: PromiseOrValue<string>,
     _issuer: PromiseOrValue<string>,
     _organization: PromiseOrValue<string>,
-    operation: OpenQDefinitions.OperationStruct,
+    _claimManager: PromiseOrValue<string>,
+    _depositManager: PromiseOrValue<string>,
+    _operation: OpenQDefinitions.InitOperationStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   openQ(overrides?: CallOverrides): Promise<string>;
 
+  tieredFixedBountyBeacon(overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
-    getBeacon(overrides?: CallOverrides): Promise<string>;
+    atomicBountyBeacon(overrides?: CallOverrides): Promise<string>;
 
     mintBounty(
       _id: PromiseOrValue<string>,
       _issuer: PromiseOrValue<string>,
       _organization: PromiseOrValue<string>,
-      operation: OpenQDefinitions.OperationStruct,
+      _claimManager: PromiseOrValue<string>,
+      _depositManager: PromiseOrValue<string>,
+      _operation: OpenQDefinitions.InitOperationStruct,
       overrides?: CallOverrides
     ): Promise<string>;
 
     openQ(overrides?: CallOverrides): Promise<string>;
+
+    tieredFixedBountyBeacon(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -152,30 +185,42 @@ export interface BountyFactory extends BaseContract {
   };
 
   estimateGas: {
-    getBeacon(overrides?: CallOverrides): Promise<BigNumber>;
+    atomicBountyBeacon(overrides?: CallOverrides): Promise<BigNumber>;
 
     mintBounty(
       _id: PromiseOrValue<string>,
       _issuer: PromiseOrValue<string>,
       _organization: PromiseOrValue<string>,
-      operation: OpenQDefinitions.OperationStruct,
+      _claimManager: PromiseOrValue<string>,
+      _depositManager: PromiseOrValue<string>,
+      _operation: OpenQDefinitions.InitOperationStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     openQ(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tieredFixedBountyBeacon(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    getBeacon(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    atomicBountyBeacon(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     mintBounty(
       _id: PromiseOrValue<string>,
       _issuer: PromiseOrValue<string>,
       _organization: PromiseOrValue<string>,
-      operation: OpenQDefinitions.OperationStruct,
+      _claimManager: PromiseOrValue<string>,
+      _depositManager: PromiseOrValue<string>,
+      _operation: OpenQDefinitions.InitOperationStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     openQ(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    tieredFixedBountyBeacon(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
   };
 }

@@ -3,5 +3,9 @@
 /* eslint-disable */
 import type * as implementations from "./Implementations";
 export type { implementations };
+import type * as interfaces from "./Interfaces";
+export type { interfaces };
 import type * as proxy from "./Proxy";
 export type { proxy };
+import type * as storage from "./Storage";
+export type { storage };
