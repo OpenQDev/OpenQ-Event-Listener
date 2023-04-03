@@ -3,10 +3,12 @@ const TOKEN_DEPOSIT_RECEIVED = "TokenDepositReceived(bytes32,address,string,stri
 const DEPOSIT_REFUNDED = "DepositRefunded(bytes32,string,address,string,uint256,address,uint256,uint256,bytes,uint256)"
 const BOUNTY_CLOSED = "BountyClosed(string,address,string,address,uint256,uint256,bytes,uint256)"
 const TOKEN_BALANCE_CLAIMED = "TokenBalanceClaimed(string,address,string,address,uint256,address,uint256,uint256,bytes,uint256)"
+const SUPPORTING_DOCUMENTS_COMPLETE_SET = "SupportingDocumentsCompleteSet(address,uint256,bytes,uint256)";
 
 require('dotenv').config()
 
 const eventGenerator = (eventType: string, params: any) => {
+	console.log("eventType", eventType)
 	let signature;
 	switch (eventType) {
 		case "BountyCreated":
@@ -23,6 +25,9 @@ const eventGenerator = (eventType: string, params: any) => {
 			break;
 		case "BountyClosed":
 			signature = BOUNTY_CLOSED
+			break;
+		case "SupportingDocumentsCompleteSet":
+			signature = SUPPORTING_DOCUMENTS_COMPLETE_SET
 			break;
 		default:
 			throw new Error()

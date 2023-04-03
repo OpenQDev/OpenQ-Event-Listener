@@ -37,6 +37,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UUPSUpgradeable__factory>;
     getContractFactory(
+      name: "PausableUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PausableUpgradeable__factory>;
+    getContractFactory(
       name: "ReentrancyGuardUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ReentrancyGuardUpgradeable__factory>;
@@ -56,6 +60,10 @@ declare module "hardhat/types/runtime" {
       name: "IERC721Upgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC721Upgradeable__factory>;
+    getContractFactory(
+      name: "ERC721HolderUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721HolderUpgradeable__factory>;
     getContractFactory(
       name: "ContextUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -113,6 +121,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721__factory>;
     getContractFactory(
+      name: "ERC721URIStorage",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721URIStorage__factory>;
+    getContractFactory(
       name: "IERC721Metadata",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC721Metadata__factory>;
@@ -133,17 +145,149 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
-      name: "BountyV1",
+      name: "AtomicBountyV1",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BountyV1__factory>;
+    ): Promise<Contracts.AtomicBountyV1__factory>;
+    getContractFactory(
+      name: "BountyCore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BountyCore__factory>;
+    getContractFactory(
+      name: "OngoingBountyV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OngoingBountyV1__factory>;
+    getContractFactory(
+      name: "TieredBountyCore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TieredBountyCore__factory>;
+    getContractFactory(
+      name: "TieredFixedBountyV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TieredFixedBountyV1__factory>;
+    getContractFactory(
+      name: "TieredPercentageBountyV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TieredPercentageBountyV1__factory>;
+    getContractFactory(
+      name: "IAtomicBounty",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAtomicBounty__factory>;
+    getContractFactory(
+      name: "IBounty",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IBounty__factory>;
+    getContractFactory(
+      name: "IBountyCore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IBountyCore__factory>;
+    getContractFactory(
+      name: "IOngoingBounty",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IOngoingBounty__factory>;
+    getContractFactory(
+      name: "ITieredBounty",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ITieredBounty__factory>;
+    getContractFactory(
+      name: "ITieredFixedBounty",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ITieredFixedBounty__factory>;
+    getContractFactory(
+      name: "ITieredPercentageBounty",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ITieredPercentageBounty__factory>;
     getContractFactory(
       name: "BountyBeacon",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.BountyBeacon__factory>;
     getContractFactory(
+      name: "AtomicBountyStorageV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AtomicBountyStorageV1__factory>;
+    getContractFactory(
+      name: "BountyStorageCore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BountyStorageCore__factory>;
+    getContractFactory(
+      name: "OngoingBountyStorageV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OngoingBountyStorageV1__factory>;
+    getContractFactory(
+      name: "TieredBountyStorageCore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TieredBountyStorageCore__factory>;
+    getContractFactory(
+      name: "TieredFixedBountyStorageV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TieredFixedBountyStorageV1__factory>;
+    getContractFactory(
+      name: "TieredPercentageBountyStorageV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TieredPercentageBountyStorageV1__factory>;
+    getContractFactory(
       name: "BountyFactory",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.BountyFactory__factory>;
+    getContractFactory(
+      name: "ClaimManagerOwnable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ClaimManagerOwnable__factory>;
+    getContractFactory(
+      name: "ClaimManagerV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ClaimManagerV1__factory>;
+    getContractFactory(
+      name: "IClaimManager",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IClaimManager__factory>;
+    getContractFactory(
+      name: "ClaimManagerStorageV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ClaimManagerStorageV1__factory>;
+    getContractFactory(
+      name: "DepositManagerOwnable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DepositManagerOwnable__factory>;
+    getContractFactory(
+      name: "DepositManagerV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DepositManagerV1__factory>;
+    getContractFactory(
+      name: "IDepositManager",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IDepositManager__factory>;
+    getContractFactory(
+      name: "DepositManagerStorageV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DepositManagerStorageV1__factory>;
+    getContractFactory(
+      name: "IKycValidity",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IKycValidity__factory>;
+    getContractFactory(
+      name: "MockDai",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MockDai__factory>;
+    getContractFactory(
+      name: "MockKyc",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MockKyc__factory>;
+    getContractFactory(
+      name: "MockLink",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MockLink__factory>;
+    getContractFactory(
+      name: "MockNft",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MockNft__factory>;
+    getContractFactory(
+      name: "TestToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TestToken__factory>;
+    getContractFactory(
+      name: "TokenFeeToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TokenFeeToken__factory>;
     getContractFactory(
       name: "OnlyOpenQ",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -161,49 +305,21 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OpenQProxy__factory>;
     getContractFactory(
-      name: "Oraclize",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Oraclize__factory>;
-    getContractFactory(
-      name: "BountyStorageV0",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BountyStorageV0__factory>;
-    getContractFactory(
-      name: "BountyStorageV1",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BountyStorageV1__factory>;
-    getContractFactory(
       name: "OpenQStorageV1",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OpenQStorageV1__factory>;
     getContractFactory(
-      name: "MockDai",
+      name: "Oraclize",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MockDai__factory>;
-    getContractFactory(
-      name: "MockLink",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MockLink__factory>;
-    getContractFactory(
-      name: "MockNft",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MockNft__factory>;
+    ): Promise<Contracts.Oraclize__factory>;
     getContractFactory(
       name: "OpenQTokenWhitelist",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OpenQTokenWhitelist__factory>;
     getContractFactory(
-      name: "TestToken",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.TestToken__factory>;
-    getContractFactory(
       name: "TokenWhitelist",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TokenWhitelist__factory>;
-    getContractFactory(
-      name: "TokenFeeToken",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.TokenFeeToken__factory>;
 
     getContractAt(
       name: "OwnableUpgradeable",
@@ -236,6 +352,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.UUPSUpgradeable>;
     getContractAt(
+      name: "PausableUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.PausableUpgradeable>;
+    getContractAt(
       name: "ReentrancyGuardUpgradeable",
       address: string,
       signer?: ethers.Signer
@@ -260,6 +381,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC721Upgradeable>;
+    getContractAt(
+      name: "ERC721HolderUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721HolderUpgradeable>;
     getContractAt(
       name: "ContextUpgradeable",
       address: string,
@@ -331,6 +457,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ERC721>;
     getContractAt(
+      name: "ERC721URIStorage",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721URIStorage>;
+    getContractAt(
       name: "IERC721Metadata",
       address: string,
       signer?: ethers.Signer
@@ -356,20 +487,185 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
-      name: "BountyV1",
+      name: "AtomicBountyV1",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.BountyV1>;
+    ): Promise<Contracts.AtomicBountyV1>;
+    getContractAt(
+      name: "BountyCore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BountyCore>;
+    getContractAt(
+      name: "OngoingBountyV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OngoingBountyV1>;
+    getContractAt(
+      name: "TieredBountyCore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TieredBountyCore>;
+    getContractAt(
+      name: "TieredFixedBountyV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TieredFixedBountyV1>;
+    getContractAt(
+      name: "TieredPercentageBountyV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TieredPercentageBountyV1>;
+    getContractAt(
+      name: "IAtomicBounty",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAtomicBounty>;
+    getContractAt(
+      name: "IBounty",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IBounty>;
+    getContractAt(
+      name: "IBountyCore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IBountyCore>;
+    getContractAt(
+      name: "IOngoingBounty",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IOngoingBounty>;
+    getContractAt(
+      name: "ITieredBounty",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ITieredBounty>;
+    getContractAt(
+      name: "ITieredFixedBounty",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ITieredFixedBounty>;
+    getContractAt(
+      name: "ITieredPercentageBounty",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ITieredPercentageBounty>;
     getContractAt(
       name: "BountyBeacon",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.BountyBeacon>;
     getContractAt(
+      name: "AtomicBountyStorageV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AtomicBountyStorageV1>;
+    getContractAt(
+      name: "BountyStorageCore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BountyStorageCore>;
+    getContractAt(
+      name: "OngoingBountyStorageV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OngoingBountyStorageV1>;
+    getContractAt(
+      name: "TieredBountyStorageCore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TieredBountyStorageCore>;
+    getContractAt(
+      name: "TieredFixedBountyStorageV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TieredFixedBountyStorageV1>;
+    getContractAt(
+      name: "TieredPercentageBountyStorageV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TieredPercentageBountyStorageV1>;
+    getContractAt(
       name: "BountyFactory",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.BountyFactory>;
+    getContractAt(
+      name: "ClaimManagerOwnable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ClaimManagerOwnable>;
+    getContractAt(
+      name: "ClaimManagerV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ClaimManagerV1>;
+    getContractAt(
+      name: "IClaimManager",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IClaimManager>;
+    getContractAt(
+      name: "ClaimManagerStorageV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ClaimManagerStorageV1>;
+    getContractAt(
+      name: "DepositManagerOwnable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DepositManagerOwnable>;
+    getContractAt(
+      name: "DepositManagerV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DepositManagerV1>;
+    getContractAt(
+      name: "IDepositManager",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IDepositManager>;
+    getContractAt(
+      name: "DepositManagerStorageV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DepositManagerStorageV1>;
+    getContractAt(
+      name: "IKycValidity",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IKycValidity>;
+    getContractAt(
+      name: "MockDai",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MockDai>;
+    getContractAt(
+      name: "MockKyc",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MockKyc>;
+    getContractAt(
+      name: "MockLink",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MockLink>;
+    getContractAt(
+      name: "MockNft",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MockNft>;
+    getContractAt(
+      name: "TestToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TestToken>;
+    getContractAt(
+      name: "TokenFeeToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TokenFeeToken>;
     getContractAt(
       name: "OnlyOpenQ",
       address: string,
@@ -391,60 +687,25 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.OpenQProxy>;
     getContractAt(
-      name: "Oraclize",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Oraclize>;
-    getContractAt(
-      name: "BountyStorageV0",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.BountyStorageV0>;
-    getContractAt(
-      name: "BountyStorageV1",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.BountyStorageV1>;
-    getContractAt(
       name: "OpenQStorageV1",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.OpenQStorageV1>;
     getContractAt(
-      name: "MockDai",
+      name: "Oraclize",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.MockDai>;
-    getContractAt(
-      name: "MockLink",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MockLink>;
-    getContractAt(
-      name: "MockNft",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MockNft>;
+    ): Promise<Contracts.Oraclize>;
     getContractAt(
       name: "OpenQTokenWhitelist",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.OpenQTokenWhitelist>;
     getContractAt(
-      name: "TestToken",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.TestToken>;
-    getContractAt(
       name: "TokenWhitelist",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.TokenWhitelist>;
-    getContractAt(
-      name: "TokenFeeToken",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.TokenFeeToken>;
 
     // default types
     getContractFactory(

@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as implementations from "./Implementations";
-export * as proxy from "./Proxy";
-export { IOpenQ__factory } from "./IOpenQ__factory";
+export * as interfaces from "./Interfaces";
+export * as storage from "./Storage";
+export * as proxy from "./proxy";

@@ -2,4 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as implementations from "./Implementations";
+export * as interfaces from "./Interfaces";
 export * as proxy from "./Proxy";
+export * as storage from "./Storage";
