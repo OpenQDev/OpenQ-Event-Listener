@@ -38,7 +38,8 @@ const claimManager = new ethers.Contract(
 ) as ClaimManagerV1;
 
 const BountyCreatedFilter = openQ.filters.BountyCreated();
-
+const PayoutScheduleUpdatedFilter = openQ.filters.PayoutScheduleSet();
+const FundingGoalSetFilter = openQ.filters.FundingGoalSet();
 const SupportingDocumentsCompleteSetFilter =
   openQ.filters.SupportingDocumentsCompleteSet();
 const TokenDepositReceivedFilter =
@@ -91,6 +92,72 @@ async function main() {
     }
   );
   openQ.on(
+    FundingGoalSetFilter,
+    async (
+      bountyAddress,
+      fundingGoalTokenAddress,
+      fundingGoalVolume,
+      bountyType,
+      data,
+      version
+    ) => {
+      const headers = {
+        Authorization: process.env.OPENQ_API_SECRET,
+      };
+
+      try {
+        const result = await axios.post(
+          `${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`,
+
+          eventGenerator("FundingGoalSet", {
+            bountyAddress,
+            fundingGoalTokenAddress,
+            fundingGoalVolume,
+            bountyType,
+            data,
+            version
+          }),
+          { headers: headers as AxiosRequestHeaders }
+        );
+      } catch (error: any) {
+        console.error(error.response);
+      }
+    }
+  );
+  openQ.on(
+    PayoutScheduleUpdatedFilter,
+    async (
+      bountyAddress,
+      payoutTokenAddress,
+      payoutSchedule,
+      bountyType,
+      data,
+      version
+    ) => {
+      const headers = {
+        Authorization: process.env.OPENQ_API_SECRET,
+      };
+
+      try {
+        const result = await axios.post(
+          `${process.env.OPENQ_BOUNTY_ACTIONS_AUTOTASK_URL}`,
+
+          eventGenerator("PayoutScheduleUpdated", {
+            bountyAddress,
+            payoutTokenAddress,
+            payoutSchedule,
+            bountyType,
+            data,
+            version,
+          }),
+          { headers: headers as AxiosRequestHeaders }
+        );
+      } catch (error: any) {
+        console.error(error.response);
+      }
+    }
+  );
+  openQ.on(
     SupportingDocumentsCompleteSetFilter,
     async (bountyAddress, bountyType, data, version) => {
       const headers = {
@@ -110,7 +177,7 @@ async function main() {
           { headers: headers as AxiosRequestHeaders }
         );
       } catch (error: any) {
-		console.log(error, "early")
+        console.log(error, "early");
         console.error(error.response);
       }
     }

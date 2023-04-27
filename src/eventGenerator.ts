@@ -4,6 +4,8 @@ const DEPOSIT_REFUNDED = "DepositRefunded(bytes32,string,address,string,uint256,
 const BOUNTY_CLOSED = "BountyClosed(string,address,string,address,uint256,uint256,bytes,uint256)"
 const TOKEN_BALANCE_CLAIMED = "TokenBalanceClaimed(string,address,string,address,uint256,address,uint256,uint256,bytes,uint256)"
 const SUPPORTING_DOCUMENTS_COMPLETE_SET = "SupportingDocumentsCompleteSet(address,uint256,bytes,uint256)";
+const PAYOUT_SCHEDULE_UPDATED = "PayoutScheduleUpdated(string,address,string,address,uint256,uint256,bytes,uint256)";
+const FUNDING_GOAL_SET = "FundingGoalSet(string,address,string,address,uint256,uint256,bytes,uint256)";
 
 require('dotenv').config()
 
@@ -29,6 +31,11 @@ const eventGenerator = (eventType: string, params: any) => {
 		case "SupportingDocumentsCompleteSet":
 			signature = SUPPORTING_DOCUMENTS_COMPLETE_SET
 			break;
+		case "PayoutScheduleUpdated":
+			signature = PAYOUT_SCHEDULE_UPDATED
+			break;
+		case "FundingGoalSet":
+			signature = FUNDING_GOAL_SET
 		default:
 			throw new Error()
 	}
